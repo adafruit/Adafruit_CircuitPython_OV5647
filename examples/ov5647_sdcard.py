@@ -40,9 +40,9 @@ buttons = keypad.Keys((board.BUTTON,), value_when_pressed=False, pull=True)
 def next_filename():
     existing = os.listdir("/sd")
     number = 0
-    while "ov5647-%04d.bmp" % number in existing:
+    while f"ov5647-{number:04d}.bmp" in existing:
         number += 1
-    return "/sd/ov5647-%04d.bmp" % number
+    return f"/sd/ov5647-{number:04d}.bmp"
 
 
 def save_bmp(path, pixels, width, height):
@@ -52,9 +52,7 @@ def save_bmp(path, pixels, width, height):
     with open(path, "wb") as file:
         file.write(struct.pack("<2sIHHI", b"BM", offset + image_size, 0, 0, offset))
         file.write(
-            struct.pack(
-                "<IiiHHIIiiII", 40, width, -height, 1, 16, 3, image_size, 2835, 2835, 0, 0
-            )
+            struct.pack("<IiiHHIIiiII", 40, width, -height, 1, 16, 3, image_size, 2835, 2835, 0, 0)
         )
         file.write(struct.pack("<III", 0xF800, 0x07E0, 0x001F))  # RGB565 masks
         file.write(pixels)

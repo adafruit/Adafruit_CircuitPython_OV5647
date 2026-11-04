@@ -4,6 +4,7 @@
 import board
 import mipicsi
 import videocore
+
 import adafruit_ov5647
 
 sensor = adafruit_ov5647.OV5647(board.I2C(), reset_pin=board.CAMERA_RESET)
